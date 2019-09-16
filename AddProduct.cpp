@@ -30,6 +30,7 @@ int main(int argc, char** argv, char** envp){
     }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
+    printOptions(getCookieKeyValue("UserId"));
     cout << ("<form action='add_product' METHOD='POST'>\n");
     cout << ("<h2><b>Add a Product to sale</b></h2>\n");
     if(error_adding_product != 0 ){

@@ -15,6 +15,7 @@ int main(int argc, char** argv, char** envp){
     }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
+    printOptions(getCookieKeyValue("UserId"));
     cout << "<h2>Shopping History</h2>\n";
     cout << "__________________________________________________________________________________________________________________";
     printBoughtItems((getCookieKeyValue("UserId")));

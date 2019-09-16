@@ -33,7 +33,6 @@ string loginQuery(string username){
     return userId;
 }
 
-
 //_________________________________________PRODUCT TABLE SECTION____________________________________
 int AddProductToSale(string name, string description, string price, string seller_fk){
     sql::Connection *con = getConnection();
@@ -60,7 +59,6 @@ void printProductList(bool userLogged, string keyword){
         cout << "__________________________________________________________________________________________________________________";
     }
 }
-
 
 //_________________________________________CLAIM TABLE SECTION____________________________________
 
@@ -89,7 +87,6 @@ void printClaims(){
         cout << "__________________________________________________________________________________________________________________";
     }
 }
-
 
 //_________________________________________CART TABLE SECTION____________________________________
 

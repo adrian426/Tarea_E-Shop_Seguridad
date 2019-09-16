@@ -15,6 +15,7 @@ int main(int argc, char** argv, char** envp){
     }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
+    printOptions(getCookieKeyValue("UserId"));
     cout << "<h2>Items in your cart</h2>\n";
     cout << "<input type='button' value='Checkout' onclick=\"location.href='http://localhost/cgi-bin/Tarea1_Seguridad/checkout'\"><br>";
     cout << "__________________________________________________________________________________________________________________";

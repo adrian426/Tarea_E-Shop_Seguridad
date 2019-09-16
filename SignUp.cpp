@@ -29,6 +29,7 @@ int main(int argc, char** argv, char** envp){
     }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
+    printOptions(getCookieKeyValue("UserId"));
     cout << ("<form action='sign_up' METHOD='POST'>\n");
     cout << ("<h2><b>Sign Up</b></h2>\n");
     if(error_creating_user != 0 ){

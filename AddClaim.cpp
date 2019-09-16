@@ -39,10 +39,11 @@ int main(int argc, char** argv, char** envp){
     }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
+    printOptions(getCookieKeyValue("UserId"));
     cout << ("<form action='add_claim' METHOD='POST'>\n");
     cout << ("<h2><b>Thanks for the Feedback!</b></h2>\n");
     if(error_adding_claim != 0 ){
-        cout << "<h4>There was an submitting your claim.</h4>";
+        cout << "<h4>There was an error submitting your claim.</h4>";
     }
     cout << ("<div><label>Title:</label><br><input name='title' required></div><br>\n");
     if(getCookieKeyValue("UserId") != ""){

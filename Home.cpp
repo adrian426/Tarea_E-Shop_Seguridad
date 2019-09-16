@@ -17,6 +17,7 @@ int main(int argc, char** argv, char** envp){
     }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
+    printOptions(getCookieKeyValue("UserId"));
     cout << "<h2>Product List</h2>\n";
     cout << ("<form action='Home' METHOD='GET'>\n");
     cout << ("<div><label>Keyword search:</label><br><input name='keyword'></div><br>\n");

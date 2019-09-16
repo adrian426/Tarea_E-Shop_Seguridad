@@ -39,6 +39,7 @@ int main(int argc, char** argv, char** envp){
   }
   cout << "Content-type:text/html\r\n\r\n";
   cout << "<body>\n";
+  printOptions(getCookieKeyValue("UserId"));  
   cout << ("<form action='login' METHOD='POST'>\n");
   cout << ("<h2><b>Login</b></h2>\n");
   if(inexistent_user != 0){
