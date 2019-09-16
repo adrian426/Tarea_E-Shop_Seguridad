@@ -95,6 +95,8 @@ int addItemToCart(string item_id, string userId){
     sql::Statement *stmt = con->createStatement();
     string query = "Insert into Cart values ('" + userId + "', '" + item_id + "');";
     stmt->executeUpdate(query);
+    delete con;
+    delete stmt;
     return 0;
 }
 
@@ -110,6 +112,9 @@ void printCart(string userId){
         cout << "<a href='http://localhost/cgi-bin/Tarea1_Seguridad/remove_from_cart?id=" + rst->getString("id") + "'>Remove from cart</a><br>";
         cout << "__________________________________________________________________________________________________________________";
     }
+    delete con;
+    delete stmt;
+    delete rst;
 }
 
 int removeItemFromCart(string itemId, string userId){
@@ -117,6 +122,8 @@ int removeItemFromCart(string itemId, string userId){
     sql::Statement *stmt = con->createStatement();
     string query = "Delete from Cart where user_fk = '" + userId + "' AND product_fk = '" + itemId + "';";
     stmt->executeUpdate(query);
+    delete con;
+    delete stmt;
     return 0; 
 }
 
@@ -130,6 +137,9 @@ void checkoutCart(string userId){
         stmt->executeUpdate("Update Product Set product_status = 1 where id = " + rst->getString("product_fk") + ";");
         stmt->executeUpdate("Delete from Cart where product_fk = " + rst->getString("product_fk") + ";");
     }
+    delete con;
+    delete stmt;
+    delete rst;
 }
 
 
@@ -145,4 +155,7 @@ void printBoughtItems(string userId){
         cout << "<label>Price: $" + rst->getString("price") + "</label><br><br>";
         cout << "__________________________________________________________________________________________________________________";
     }
+    delete con;
+    delete stmt;
+    delete rst;
 }
