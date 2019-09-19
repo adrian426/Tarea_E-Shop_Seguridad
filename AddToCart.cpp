@@ -4,7 +4,7 @@
 #include "CookieHandler.cpp"
 #include "Utils.cpp"
 #include "RequestHandler.cpp"
-#include "Model/Database.cpp"
+#include "Database.cpp"
 // Include the Connector/C++ headers
 using namespace std;
 
