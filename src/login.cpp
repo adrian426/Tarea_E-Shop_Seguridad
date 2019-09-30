@@ -1,8 +1,8 @@
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
-#include "mysql_driver.h"
-#include "mysql_connection.h"
+#include "jdbc/mysql_driver.h"
+#include "jdbc/mysql_connection.h"
 #include "Layout.cpp"
 #include "CookieHandler.cpp"
 #include "Utils.cpp"

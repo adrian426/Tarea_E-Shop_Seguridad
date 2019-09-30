@@ -2,6 +2,7 @@
 #include <sstream>
 #include <vector>
 #include "string.h"
+#include <stdio.h>
 using namespace std;
 
 //The following two functions were obtained from https://www.fi.muni.cz/usr/jkucera/tic/tic0305.html

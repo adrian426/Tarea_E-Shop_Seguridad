@@ -1,10 +1,10 @@
-#include "mysql_driver.h"
-#include "mysql_connection.h"
+#include "jdbc/mysql_driver.h"
+#include "jdbc/mysql_connection.h"
 
 // Include the Connector/C++ headers
-#include "cppconn/exception.h"
-#include "cppconn/resultset.h"
-#include "cppconn/statement.h"
+#include "jdbc/cppconn/exception.h"
+#include "jdbc/cppconn/resultset.h"
+#include "jdbc/cppconn/statement.h"
 using namespace std;
 using namespace sql::mysql;
 
