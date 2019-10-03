@@ -19,7 +19,7 @@ int main(int argc, char** argv, char** envp){
         cout << "<body>\n";
         printOptions(getCookieKeyValue("UserId"));
         cout << "<h2>You have succesfully bought all the items in your cart.</h2>\n";
-        cout << "<input type='button' value='Continue' onclick=\"location.href='http://localhost/cgi-bin/Tarea1_Seguridad/Home'\">";
+        cout << "<input type='button' value='Continue' onclick=\"location.href='http://172.24.129.81/cgi-bin/Tarea1_Seguridad/Home'\">";
         cout << ("</body>\n");
         cout << ("</html>\n");
     }catch(exception e){
@@ -27,7 +27,7 @@ int main(int argc, char** argv, char** envp){
         cout << "<body>\n";
         printOptions(getCookieKeyValue("UserId"));
         cout << "<h2>An error ocurred while checking out your shopping cart..</h2>\n";
-        cout << "<input type='button' value='Cart' onclick=\"location.href='http://localhost/cgi-bin/Tarea1_Seguridad/review_cart'\">";
+        cout << "<input type='button' value='Cart' onclick=\"location.href='http://172.24.129.81/cgi-bin/Tarea1_Seguridad/review_cart'\">";
         cout << ("</body>\n");
         cout << ("</html>\n");
     }

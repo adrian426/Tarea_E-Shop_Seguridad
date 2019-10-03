@@ -23,7 +23,7 @@ int main(int argc, char** argv, char** envp){
     try{//Try to add the user to the database.
         if(post != ""){//Call the user registry.
             addProduct(post);
-            //cout << "Location: http://localhost/cgi-bin/Tarea1_Seguridad/Home\r\n\r\n";
+            //cout << "Location: http://172.24.129.81/cgi-bin/Tarea1_Seguridad/Home\r\n\r\n";
         }
     } catch (exception e){//If a value from the form is not unique in the db (except fullname), it will fail and set the error.
         error_adding_product = 1;
@@ -39,7 +39,7 @@ int main(int argc, char** argv, char** envp){
     cout << ("<div><label>Product name:</label><br><input name='name' required></div><br>\n");
     cout << ("<div><label>Product description:</label><br><textarea rows='3' name='desc' required></textarea></div><br>\n");
     cout << ("<div><label>Product price:</label><br><input type=\"tel\" name=\"price\" pattern=\"[0-9]{1,11}\" required></div><br>\n");
-    cout << ("<div><input type='button' value='Cancel' onclick=\"location.href='http://localhost/cgi-bin/Tarea1_Seguridad/Home'\"> <input type='submit' value='Submit'></div>\n");
+    cout << ("<div><input type='button' value='Cancel' onclick=\"location.href='http://172.24.129.81/cgi-bin/Tarea1_Seguridad/Home'\"> <input type='submit' value='Submit'></div>\n");
     cout << ("</form>\n");
     cout << ("</body>\n");
     cout << ("</html>\n");
