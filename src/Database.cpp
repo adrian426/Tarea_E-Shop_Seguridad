@@ -138,25 +138,20 @@ int removeItemFromCart(string itemId, string userId){
     return 0; 
 }
 
-void checkoutCart(string userId){
-    string getCartQuery = "Select * from Cart where user_fk = '" + userId + "';";
+void checkoutCart(string userId, string card_number){
     sql::Connection *con = getConnection();
     sql::Statement *stmt = con->createStatement();
-    sql::ResultSet *rst = stmt->executeQuery(getCartQuery);
-    while(rst->next()){
-        stmt->executeUpdate("Insert into BoughtItem values (" + userId + ", " + rst->getString("product_fk") + ");");
-        stmt->executeUpdate("Update Product Set product_status = 1 where id = " + rst->getString("product_fk") + ";");
-        stmt->executeUpdate("Delete from Cart where product_fk = " + rst->getString("product_fk") + ";");
-    }
+    stmt->executeUpdate("Insert into Bill_Info (user_fk, credit_card, amount, bill_date) values (" + userId + ", " + card_number + ", (Select SUM(price) from Product where id IN (Select product_fk from Cart where user_fk = " + userId + ")),NOW());");
+    stmt->executeUpdate("Update Product Set product_status = 1, buyer_fk = " + userId + ", bill_id = (select id from Bill_Info where user_fk = " + userId + " order by bill_date desc LIMIT 1) where id IN (Select product_fk from Cart where user_fk = " + userId + ");");
+    stmt->executeUpdate("Delete from Cart where user_fk = " + userId +";");
     delete con;
     delete stmt;
-    delete rst;
 }
 
 
 
 void printBoughtItems(string userId){
-    string query = "Select Distinct * from Product P, BoughtItem B where B.user_fk = '" + userId + "' AND P.id = B.product_fk;";
+    string query = "Select Distinct * from Product where buyer_fk = '" + userId + "';";
     sql::Connection *con = getConnection();
     sql::Statement *stmt = con->createStatement();
     sql::ResultSet *rst = stmt->executeQuery(query);

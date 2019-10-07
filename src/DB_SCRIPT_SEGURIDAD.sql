@@ -1,5 +1,5 @@
 create database if not exists Amazin;
-
+use Amazin;
 Create table if not exists User(
 	id int not null auto_increment,
     username varchar(25) not null unique,
@@ -15,6 +15,8 @@ create table if not exists Product(
     product_name varchar(70) not null,
     product_descp varchar(2000) not null,
     seller_fk int not null,
+    buyer_fk int,
+    bill_id int,
     product_status BOOLEAN not null default 0,
     primary key (id),
     foreign key (seller_fk) references User (id)
@@ -41,10 +43,12 @@ create table if not exists Claim(
     foreign key (user_fk) references User (id)
 );
 
-create table if not exists BoughtItem(
+create table if not exists Bill_Info(
+    id int not null auto_increment,
     user_fk int not null,
-    product_fk int not null,
+    credit_card int not null,
+    amount int not null,
+    bill_date DATE not null,
     foreign key (user_fk) references User(id),
-    foreign key (product_fk) references Product (id),
-    primary key (user_fk, product_fk)
+    primary key (id)
 );
