@@ -46,7 +46,7 @@ create table if not exists Claim(
 create table if not exists Bill_Info(
     id int not null auto_increment,
     user_fk int not null,
-    credit_card int not null,
+    credit_card varchar(16) not null,
     amount int not null,
     bill_date DATE not null,
     foreign key (user_fk) references User(id),
