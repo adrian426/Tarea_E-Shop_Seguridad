@@ -1,9 +1,0 @@
-Comandos a ejecutar:
-
-sudo apt-get install apache2
-sudo ufw allow 'Apache'
-sudo apt-get install cmake
-sudo apt-get install g++
-sudo apt install mysql-server
-sudo mysql_secure_installation
-
