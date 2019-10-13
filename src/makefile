@@ -1,8 +1,8 @@
 default:
-	g++ -Wall -I/usr/include/cppconn -ologin login.cpp -L/usr/lib -lmysqlcppconn
+	g++ -Wall -I/usr/include/cppconn -ologin login.cpp -L/usr/lib -lmysqlcppconn -lcrypto
 	g++ -Wall -I/usr/include/cppconn -ologout logout.cpp -L/usr/lib -lmysqlcppconn
 	g++ -Wall -I/usr/include/cppconn -oHome Home.cpp -L/usr/lib -lmysqlcppconn
-	g++ -Wall -I/usr/include/cppconn -osign_up SignUp.cpp -L/usr/lib -lmysqlcppconn
+	g++ -Wall -I/usr/include/cppconn -osign_up SignUp.cpp -L/usr/lib -lmysqlcppconn -lcrypto
 	g++ -Wall -I/usr/include/cppconn -oadd_product AddProduct.cpp -L/usr/lib -lmysqlcppconn
 	g++ -Wall -I/usr/include/cppconn -oadd_claim AddClaim.cpp -L/usr/lib -lmysqlcppconn
 	g++ -Wall -I/usr/include/cppconn -oadd_to_cart AddToCart.cpp -L/usr/lib -lmysqlcppconn

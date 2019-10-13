@@ -20,15 +20,15 @@ sql::Connection* getConnection(){
 }
 
 //_________________________________________USER TABLE SECTION____________________________________
-int CreateUser(string username, string fullname, string email, string phone_number){
+int CreateUser(string username, string fullname, string email, string phone_number, string password_hash){
     sql::Connection *con = getConnection();
     sql::Statement *stmt;
     stmt = con->createStatement();
-    stmt->executeUpdate("Insert into User (username, fullname, email, phone_number) Values('" + username + "', '" + fullname + "', '" + email + "', " + phone_number  + ");");
+    stmt->executeUpdate("Insert into User (username, fullname, email, phone_number, password_hash) Values('" + username + "', '" + fullname + "', '" + email + "', " + phone_number  + ", + " + password_hash + ");");
     return 0;
 }
 
-string loginQuery(string username){
+string loginQuery(string username, string password_hash){
     sql::Connection *con = getConnection();
     sql::Statement *stmt;
     sql::ResultSet *res;

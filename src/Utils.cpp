@@ -1,7 +1,7 @@
-#include <iostream>
-#include <sstream>
 #include <vector>
+#include <iostream>
 #include "string.h"
+#include <regex>
 using namespace std;
 
 //The following two functions were obtained from https://www.fi.muni.cz/usr/jkucera/tic/tic0305.html
@@ -58,6 +58,19 @@ string getKeyOrValue(string pairToDivide, int indicator){
     return value1;
 }
 
+string get_string_without_char(char charToReplace, char newChar, string string_to_change){
+    string rst = "";
+    for(unsigned int i = 0; i < string_to_change.length(); i++){
+        if(string_to_change[i] == charToReplace){
+            if(newChar != '\0'){
+                rst += newChar;   
+            }
+        } else {
+            rst += string_to_change[i];
+        }
+    }
+    return rst;
+}
 
 void printEnv(char ** envp){
   for (char **env = envp; *env != 0; env++)

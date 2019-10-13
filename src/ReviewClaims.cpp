@@ -1,6 +1,3 @@
-#include <iostream>
-#include <sstream>
-#include <cstdlib>
 #include "Layout.cpp"
 #include "CookieHandler.cpp"
 #include "Utils.cpp"
