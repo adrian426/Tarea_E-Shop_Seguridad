@@ -17,6 +17,7 @@ void killCookie(){
     cout << "Set-Cookie:UserId = ;\r\n";
 }
 
+
 string getCookieKeyValue(string key){
     string foundValue = "";
     vector<string> tokens;

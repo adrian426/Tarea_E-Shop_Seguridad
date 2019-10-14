@@ -1,6 +1,8 @@
 #include <vector>
 #include <iostream>
 #include "string.h"
+#include <math.h>
+#include <time.h>
 #include <regex>
 using namespace std;
 
@@ -12,6 +14,17 @@ char translateHex(char hex){
     } else {
         return hex - '0';
     }
+}
+
+string generate_random_string(){
+    string chars = "1234567890-=_+qwertyuiopasdfghjklzxcvbnm.,[]{}!@#$%()";
+    time_t t;
+	srand(time( &t ));
+    string rst = "";
+    for(int i = 0; i < 24; i++){
+        rst += chars[((int)rand() % (54))];
+    }
+    return rst;
 }
 
 string decode(string encoded_string){

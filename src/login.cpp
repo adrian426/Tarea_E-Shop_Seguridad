@@ -30,23 +30,28 @@ int checkFormFields(string username, string password){
 
 string checkUserLogin(string username, string password){
   string password_hash = hash_password(password, username);
-  string userId = loginQuery(username, password);
-  return password_hash;
+  string sessionId = generate_random_string();
+  string userId = loginQuery(username, password_hash, sessionId);
+  if(userId != ""){
+    return sessionId;
+  } else {
+    return "";
+  }
 }
 
 
 int main(int argc, char** argv, char** envp){
   string post = getPostData();
-  string userId = "";
+  string sessionId = "";
   int inexistent_user = 0;
   if(post != ""){
     vector<string> postData = getTokenPairs('&',post);
     string username = getKeyOrValue(postData[0], 1);
     string password = getKeyOrValue(postData[1], 1);
     if(checkFormFields(username, password)){
-      userId = checkUserLogin(username, password);
-      if(userId != ""){
-        setCookiePair("UserId", userId);
+      sessionId = checkUserLogin(username, password);
+      if(sessionId != ""){
+        setCookiePair("SessionId", sessionId);
         cout << "Location: Home\n";
       } else {
         //TODO: Indicar inexistencia del usuario.
@@ -56,7 +61,7 @@ int main(int argc, char** argv, char** envp){
       inexistent_user = 2;
     }
   }
-  string userLoggedIn = getCookieKeyValue("UserId");
+  string userLoggedIn = getCookieKeyValue("SessionId");
   if( userLoggedIn != "" ){//If the user is already logged in, redirect to Homepage.
     //cout << "Location: Home";
   }

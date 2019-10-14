@@ -28,7 +28,7 @@ int CreateUser(string username, string fullname, string email, string phone_numb
     return 0;
 }
 
-string loginQuery(string username, string password_hash){
+string loginQuery(string username, string password_hash, string sessionId){
     sql::Connection *con = getConnection();
     sql::Statement *stmt;
     sql::ResultSet *res;
@@ -37,6 +37,13 @@ string loginQuery(string username, string password_hash){
     string userId = "";
     while(res->next()){
         userId = res->getString("id");
+    }
+    if (userId != ""){
+        try{
+            stmt->executeUpdate("Insert into _Session Values('" + sessionId + "'," + userId + ", DATE_ADD(NOW(), INTERVAL 15 MINUTE))");
+        } catch (exception e){
+            userId = "";
+        }
     }
     delete stmt;
     delete con;

@@ -57,7 +57,13 @@ create table if not exists Bill_Info(
 create table _Session(
     id varchar(24) unique not null,
     user_fk int unique not null,
-    session_expiration DATE not null,
+    session_expiration TIMESTAMP not null,
     FOREIGN KEY (user_fk) REFERENCES User(id),
     PRIMARY KEY (id)
 ); 
+
+CREATE EVENT delete_expired_sessions
+ON SCHEDULE EVERY 15 MINUTE
+STARTS CURRENT_TIMESTAMP
+DO
+	Delete from Amazin._Session where timestampdiff(MINUTE, session_expiration, NOW()) >= 15;
