@@ -4,6 +4,7 @@
 // Include the Connector/C++ headers
 #include "cppconn/exception.h"
 #include "cppconn/resultset.h"
+#include "cppconn/prepared_statement.h"
 #include "cppconn/statement.h"
 using namespace std;
 using namespace sql::mysql;
@@ -33,22 +34,72 @@ string loginQuery(string username, string password_hash, string sessionId){
     sql::Statement *stmt;
     sql::ResultSet *res;
     stmt = con->createStatement();
-    res = stmt->executeQuery("Select id from User where username = '" + username + "' and password_hash = '" + password_hash + "';");
+    res = stmt->executeQuery("Select * from User where username = '" + username + "' and password_hash = '" + password_hash + "';");
     string userId = "";
     while(res->next()){
         userId = res->getString("id");
-    }
-    if (userId != ""){
-        try{
-            stmt->executeUpdate("Insert into _Session Values('" + sessionId + "'," + userId + ", DATE_ADD(NOW(), INTERVAL 15 MINUTE))");
-        } catch (exception e){
-            userId = "";
-        }
+        stmt->executeUpdate("Insert into _Session Values('" + sessionId + "'," + userId + ", DATE_ADD(NOW(), INTERVAL 15 MINUTE));");
     }
     delete stmt;
     delete con;
     delete res;
     return userId;
+}
+
+//Closes the session on the database.
+int sessionLogOut(string sessionId){
+    sql::Connection *con = getConnection();
+    sql::PreparedStatement *pstmt;
+    int rst = 0;
+    pstmt = con->prepareStatement("Delete from Amazin._Session where id = ?;");
+    pstmt->setString(1, sessionId);
+    try{
+        pstmt->executeUpdate();
+        rst = true;
+    } catch(exception e) {
+        rst = false;
+    }
+    delete pstmt;
+    delete con;
+    return rst;
+}
+
+bool updateSession(sql::Connection *con, string sessionId){
+    sql::PreparedStatement *pstmt;
+    int rst = true;
+    pstmt = con->prepareStatement("update Amazin._Session SET session_expiration = DATE_ADD(NOW(), INTERVAL 15 MINUTE) where id = ?;");
+    pstmt->setString(1, sessionId);
+    try{
+        pstmt->executeUpdate();
+        rst = true;
+    } catch(exception e) {
+        rst = false;
+    }
+    delete pstmt;
+    return rst;
+}
+
+// Queries the db to know if the session is still alive, if it is, updates the session expiration date.
+bool isSessionAlive(string sessionId){
+    sql::Connection *con = getConnection();
+    sql::Statement *stmt;
+    sql::ResultSet *res;
+    int rst = 0;
+    stmt = con->createStatement();
+    res = stmt->executeQuery("Select * from Amazin._Session where id = '" + sessionId + "' and timestampdiff(MINUTE, session_expiration, NOW()) <= 15;");
+    while(res->next()){
+        rst = updateSession(con, sessionId);
+        if(rst){
+            delete con;
+            delete stmt;
+            delete res;
+            return true;
+        }
+    }
+    delete con;
+    delete stmt;
+    delete res;
+    return false;
 }
 
 //_________________________________________PRODUCT TABLE SECTION____________________________________

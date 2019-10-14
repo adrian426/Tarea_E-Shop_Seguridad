@@ -37,10 +37,8 @@ create table if not exists Claim(
     claim_type int not null,
     msg varchar(2000) not null,
     msg_timestamp DATE not null,
-    reply_to_claim_fk int,
     user_fk int,
     primary key (id),
-    foreign key (reply_to_claim_fk) references Claim (id),
     foreign key (user_fk) references User (id)
 );
 

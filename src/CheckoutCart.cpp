@@ -5,7 +5,6 @@
 #include "CookieHandler.cpp"
 #include "Utils.cpp"
 #include "RequestHandler.cpp"
-#include "Database.cpp"
 // Include the Connector/C++ headers
 using namespace std;
 
@@ -18,14 +17,15 @@ int PaymentSimulation(){
 }
 
 int main(int argc, char** argv, char** envp){
-    if((getCookieKeyValue("UserId") == "")){
+    bool session = sessionStatus();
+    if( session == true){
         cout << "Location: Home\r\n\r\n";
     }
     try{
         PaymentSimulation();
         cout << "Content-type:text/html\r\n\r\n";
         cout << "<body>\n";
-        printOptions(getCookieKeyValue("UserId"));
+        printOptions(session);
         cout << "<h2>You have succesfully bought all the items in your cart.</h2>\n";
         cout << "<input type='button' value='Continue' onclick=\"location.href='http://localhost/cgi-bin/Tarea1_Seguridad/Home'\">";
         cout << ("</body>\n");
@@ -34,7 +34,7 @@ int main(int argc, char** argv, char** envp){
         cout << "Content-type:text/html\r\n\r\n";
         cout << "<body>\n";
         cout << e.what();
-        printOptions(getCookieKeyValue("UserId"));
+        printOptions(session);
         cout << "<h2>An error ocurred while checking out your shopping cart..</h2>\n";
         cout << "<input type='button' value='Cart' onclick=\"location.href='http://localhost/cgi-bin/Tarea1_Seguridad/review_cart'\">";
         cout << ("</body>\n");

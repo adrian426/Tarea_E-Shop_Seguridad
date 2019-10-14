@@ -1,15 +1,12 @@
 #include <iostream>
-#include "mysql_driver.h"
-#include "mysql_connection.h"
+#include "string.h"
 #include "Layout.cpp"
 #include "CookieHandler.cpp"
 #include "Utils.cpp"
 #include "RequestHandler.cpp"
-#include "Database.cpp"
 #include "Encryption.cpp"
 using namespace std;
 using namespace sql::mysql;
-
 
 int checkFormFields(string username, string password){
   regex username_regex ("[a-zA-Z0-9\\_\\-\\.]{2,29}");
@@ -28,30 +25,33 @@ int checkFormFields(string username, string password){
   return true;
 }
 
-string checkUserLogin(string username, string password){
+int checkUserLogin(string username, string password){
   string password_hash = hash_password(password, username);
   string sessionId = generate_random_string();
   string userId = loginQuery(username, password_hash, sessionId);
   if(userId != ""){
-    return sessionId;
+    setCookiePair("SessionId", sessionId);
+    return 1;
   } else {
-    return "";
+    return 0;
   }
 }
 
 
 int main(int argc, char** argv, char** envp){
   string post = getPostData();
-  string sessionId = "";
+  int logged = 0;
   int inexistent_user = 0;
+  bool userLoggedIn = false;
   if(post != ""){
     vector<string> postData = getTokenPairs('&',post);
     string username = getKeyOrValue(postData[0], 1);
     string password = getKeyOrValue(postData[1], 1);
     if(checkFormFields(username, password)){
-      sessionId = checkUserLogin(username, password);
-      if(sessionId != ""){
-        setCookiePair("SessionId", sessionId);
+      logged = checkUserLogin(username, password);
+      if(logged != 0){
+        inexistent_user = -1;
+        userLoggedIn = true;
         cout << "Location: Home\n";
       } else {
         //TODO: Indicar inexistencia del usuario.
@@ -61,17 +61,19 @@ int main(int argc, char** argv, char** envp){
       inexistent_user = 2;
     }
   }
-  string userLoggedIn = getCookieKeyValue("SessionId");
-  if( userLoggedIn != "" ){//If the user is already logged in, redirect to Homepage.
-    //cout << "Location: Home";
+  if(inexistent_user != -1){
+    userLoggedIn = sessionStatus();
+    if( userLoggedIn ){//If the user is already logged in, redirect to Homepage.
+      cout << "Location: Home\n";
+    }
   }
   cout << "Content-type:text/html\r\n\r\n";
   cout << "<body>\n";
-  printOptions(getCookieKeyValue("UserId"));  
+  printOptions(userLoggedIn);  
   cout << ("<form action='login' METHOD='POST'>\n");
   cout << ("<h2><b>Login</b></h2>\n");
   if(inexistent_user == 1){
-    cout<< "<h4>The username entered does not exist.</h4>";
+    cout<< "<h4>Unable to sign in with the credentials entered. If you recently started session you may need to wait a a little to log in again.</h4>";
   } else if(inexistent_user == 2){
     cout<< "<h4>Invalid character found in a field.</h4>";
   }

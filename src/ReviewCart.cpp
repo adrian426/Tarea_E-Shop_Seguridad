@@ -5,7 +5,6 @@
 #include "CookieHandler.cpp"
 #include "Utils.cpp"
 #include "RequestHandler.cpp"
-#include "Database.cpp"
 // Include the Connector/C++ headers
 using namespace std;
 
@@ -15,7 +14,7 @@ int main(int argc, char** argv, char** envp){
     }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
-    printOptions(getCookieKeyValue("UserId"));
+    printOptions(sessionStatus());
     cout << ("<form action='checkout' METHOD='POST'>\n");
     cout << ("<h2><b>Buy</b></h2>\n");
     cout << ("<div><label>Enter your card number:</label><br><input name='cardNumber' type='tel' pattern=\"[0-9]{16}\" required></div><br>\n");

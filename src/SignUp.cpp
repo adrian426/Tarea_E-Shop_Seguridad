@@ -5,11 +5,8 @@
 #include "CookieHandler.cpp"
 #include "Utils.cpp"
 #include "RequestHandler.cpp"
-#include "Database.cpp"
 #include "Encryption.cpp"
-// Include the Connector/C++ headers
 using namespace std;
-using namespace sql::mysql;
 
 int check_form_data(vector<string> postData){
     regex fullname_regex("[a-zA-Z]+[ a-zA-Z]*");
@@ -86,7 +83,7 @@ int main(int argc, char** argv, char** envp){
     }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
-    printOptions(getCookieKeyValue("UserId"));
+    printOptions(sessionStatus());
     cout << ("<form action='sign_up' METHOD='POST'>\n");
     cout << ("<h2><b>Sign Up</b></h2>\n");
     if(error_creating_user != 0 ){

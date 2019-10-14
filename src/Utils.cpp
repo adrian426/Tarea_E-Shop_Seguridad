@@ -17,12 +17,12 @@ char translateHex(char hex){
 }
 
 string generate_random_string(){
-    string chars = "1234567890-=_+qwertyuiopasdfghjklzxcvbnm.,[]{}!@#$%()";
+    string chars = "123456890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
     time_t t;
 	srand(time( &t ));
     string rst = "";
     for(int i = 0; i < 24; i++){
-        rst += chars[((int)rand() % (54))];
+        rst += chars[((int)rand() % (62))];
     }
     return rst;
 }
