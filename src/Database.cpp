@@ -150,11 +150,11 @@ int addClaimToTable(string title, string msg, string type, bool anon, string ses
     sql::Connection *con = getConnection();
     sql::Statement *stmt;
     string user = getUserIdFromSession(con, sessionId);
-    string query = "Insert into Claim (title, claim_type, msg, msg_timestamp";
+    string query = "";
     if(anon){
-        query += ") values ('" + title + "', " + type + ", '" + msg + "', CURRENT_TIMESTAMP())";
+        query = "Insert into Claim (title, claim_type, msg, msg_timestamp) values ('" + title + "', " + type + ", '" + msg + "', CURRENT_TIMESTAMP())";
     } else {
-        query += ",user_fk) values ('" + title + "', " + type + ", '" + msg + "', NOW(), '" + user + "')";
+        query = "Insert into Claim (title, claim_type, msg, msg_timestamp,user_fk) values ('" + title + "', " + type + ", '" + msg + "', NOW(), " + user + ")";
     }
     stmt = con->createStatement();
     stmt->executeUpdate(query);

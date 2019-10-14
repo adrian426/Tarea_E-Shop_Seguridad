@@ -13,14 +13,14 @@ bool checkFields(string title, string msg, string type){
     if(get_string_without_char(' ', '\0', title) == "" || !regex_match(title, get_generic_regex())){
         return false;
     }
-    // regex gen ("[\\w \\,\\.\\n]+");
-    // if(get_string_without_char(' ', '\0', msg) == "" || !regex_match(msg, get_generic_regex())){
-    //     return false;
-    // }
-    // regex number("[0-2]{1}");
-    // if(!regex_match(type, number)){
-    //     return false;
-    // }
+    regex gen ("[\\w \\,\\.\\n]+");
+    if(get_string_without_char(' ', '\0', msg) == "" || !regex_match(msg, get_generic_regex())){
+        return false;
+    }
+    regex number("[0-2]{1}");
+    if(!regex_match(type, number)){
+        return false;
+    }
     return true;
 }
 
@@ -32,11 +32,9 @@ bool checkFields(string title, string msg, string type){
 */
 bool addClaim(string post, bool logged){
     vector<string> postData = getTokenPairs('&', post);
-    int indexIfLogged = (logged)?1:2;
     string title = getKeyOrValue(postData[0],1);
-    string msg = getKeyOrValue(postData[indexIfLogged+1],1);
-    string type = getKeyOrValue(postData[indexIfLogged],1);
-    // cout << title;
+    string msg = getKeyOrValue(postData[2],1);
+    string type = getKeyOrValue(postData[1],1);
     if(checkFields(title, msg, type)){
         addClaimToTable(title, msg, type, logged, getCookieKeyValue("SessionId"));
         return true;
