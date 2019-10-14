@@ -10,19 +10,17 @@ using namespace std;
 using namespace sql::mysql;
 
 bool checkFields(string title, string msg, string type){
-    regex type_regex ("1|2|3");
-    if(get_string_without_char(' ', '\0', title) == "" || regex_match(title,get_generic_regex())){
+    if(get_string_without_char(' ', '\0', title) == "" || !regex_match(title, get_generic_regex())){
         return false;
     }
-    regex gen ("[\\w \\,\\.\\n]+");
-    if(get_string_without_char(' ', '\0', msg) == "" || regex_match(msg,gen)){
-        return false;
-    }
-
-    if(get_string_without_char(' ', '\0', type) == "" || regex_match(type,type_regex)){
-        return false;
-    }
-
+    // regex gen ("[\\w \\,\\.\\n]+");
+    // if(get_string_without_char(' ', '\0', msg) == "" || !regex_match(msg, get_generic_regex())){
+    //     return false;
+    // }
+    // regex number("[0-2]{1}");
+    // if(!regex_match(type, number)){
+    //     return false;
+    // }
     return true;
 }
 
@@ -32,15 +30,15 @@ bool checkFields(string title, string msg, string type){
         1 = feedback
         2 = claim
 */
-bool addClaim(string post){
+bool addClaim(string post, bool logged){
     vector<string> postData = getTokenPairs('&', post);
-    int indexIfLogged = (postData.size() <= 3)?1:2;
+    int indexIfLogged = (logged)?1:2;
     string title = getKeyOrValue(postData[0],1);
     string msg = getKeyOrValue(postData[indexIfLogged+1],1);
     string type = getKeyOrValue(postData[indexIfLogged],1);
+    // cout << title;
     if(checkFields(title, msg, type)){
-        addClaimToTable(title, msg, type, (postData.size() <= 3)?1:0,
-                    getCookieKeyValue("SessionId"));
+        addClaimToTable(title, msg, type, logged, getCookieKeyValue("SessionId"));
         return true;
     } else {
         return false;
@@ -53,18 +51,18 @@ int main(int argc, char** argv, char** envp){
     bool session = sessionStatus();
     int error_adding_claim = 0;
     bool rst = true;
-    try{//Try to add the user to the database.
+    // try{//Try to add the user to the database.
         if(post != ""){//Call the user registry.
-            rst = addClaim(post);
+            rst = addClaim(post, !session);
             if(rst) {
                 cout << "Location: review_claims\r\n\r\n";
             } else {
                 error_adding_claim = 2;
             }
         }
-    } catch (exception e){//If a value from the form is not unique in the db (except fullname), it will fail and set the error.
-        error_adding_claim = 1;
-    }
+    // } catch (exception e){//If a value from the form is not unique in the db (except fullname), it will fail and set the error.
+    //     error_adding_claim = 1;
+    // }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
     printOptions(sessionStatus());
@@ -76,9 +74,6 @@ int main(int argc, char** argv, char** envp){
         cout << "<h4>Invalid character found in a form field.</h4>";
     }
     cout << ("<div><label>Title:</label><br><input name='title' required></div><br>\n");
-    if(session){
-        cout << "<label>Reveal identity on the claim?</label><input type='checkbox' name='anon' value='Y'><br><br>";
-    }
     cout << "<label>Choose the type of feedback:</label>";
     cout << "<input type='radio' name='type' value='0' checked> Query";
     cout << "<input type='radio' name='type' value='1'> Feedback";

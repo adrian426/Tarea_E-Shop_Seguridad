@@ -10,7 +10,7 @@ using namespace std;
 
 int main(int argc, char** argv, char** envp){
     bool session = sessionStatus();
-    if(session){
+    if(!session){
         cout << "Location: Home\r\n\r\n";
     }
     cout << "Content-type:text/html\r\n\r\n";

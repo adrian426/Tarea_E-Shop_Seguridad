@@ -38,11 +38,11 @@ int PaymentSimulation(){
 
 int main(int argc, char** argv, char** envp){
     bool session = sessionStatus();
-    if( session == true){
+    if(!session){
         cout << "Location: Home\r\n\r\n";
     }
     int rst = PaymentSimulation();
-    if(rst == 0){
+    if(rst == 1){
         cout << "Content-type:text/html\r\n\r\n";
         cout << "<body>\n";
         printOptions(session);

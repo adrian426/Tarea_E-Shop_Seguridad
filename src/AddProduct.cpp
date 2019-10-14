@@ -17,7 +17,7 @@ bool check_fields(string name, string descp, string price){
     if(get_string_without_char(' ', '\0', descp) == "" || !regex_match(descp, get_generic_regex())){
         return false;
     }
-    regex number("[0-9]{1-10}");
+    regex number("[0-9]{1,10}");
     if(!regex_match(price, number)){
         return false;
     }
@@ -45,7 +45,7 @@ int addProduct(string post){
 int main(int argc, char** argv, char** envp){
     string post = getPostData();
     string userId = "";
-    int error_adding_product = 0;
+    int error_adding_product = 1;
     bool session = sessionStatus();
     if(!session){
         cout << "Location: Home\r\n\r\n";

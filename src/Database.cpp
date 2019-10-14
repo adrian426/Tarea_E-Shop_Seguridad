@@ -106,7 +106,7 @@ string getUserIdFromSession(sql::Connection *con, string sessionId){
     sql::Statement *stmt;
     sql::ResultSet *res;
     stmt = con->createStatement();
-    res = stmt->executeQuery("Select * from _Session where id = " + sessionId + ";");
+    res = stmt->executeQuery("Select * from _Session where id = '" + sessionId + "';");
     string userId = "";
     while(res->next()){
         userId = res->getString("user_fk");
@@ -219,7 +219,7 @@ void checkoutCart(string sessionId, string card_number){
     sql::Connection *con = getConnection();
     sql::Statement *stmt = con->createStatement();
     string userId = getUserIdFromSession(con, sessionId);
-    stmt->executeUpdate("Insert into Bill_Info (user_fk, credit_card, amount, bill_date) values (" + userId + ", " + card_number + ", (Select SUM(price) from Product where id IN (Select product_fk from Cart where user_fk = " + userId + ")),NOW());");
+    stmt->executeUpdate("Insert into Bill_Info (user_fk, credit_card, amount, bill_date) values (" + userId + ", '" + card_number + "', (Select SUM(price) from Product where id IN (Select product_fk from Cart where user_fk = " + userId + ")),NOW());");
     stmt->executeUpdate("Update Product Set product_status = 1, buyer_fk = " + userId + ", bill_id = (select id from Bill_Info where user_fk = " + userId + " order by bill_date desc LIMIT 1) where id IN (Select product_fk from Cart where user_fk = " + userId + ");");
     stmt->executeUpdate("Delete from Cart where user_fk = " + userId +";");
     delete con;

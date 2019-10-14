@@ -9,12 +9,13 @@
 using namespace std;
 
 int main(int argc, char** argv, char** envp){
-    if((getCookieKeyValue("UserId") == "")){
+    bool session = sessionStatus();
+    if(!session){
         cout << "Location: Home\r\n\r\n";
     }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
-    printOptions(sessionStatus());
+    printOptions(session);
     cout << ("<form action='checkout' METHOD='POST'>\n");
     cout << ("<h2><b>Buy</b></h2>\n");
     cout << ("<div><label>Enter your card number:</label><br><input name='cardNumber' type='tel' pattern=\"[0-9]{16}\" required></div><br>\n");
@@ -24,7 +25,7 @@ int main(int argc, char** argv, char** envp){
     cout << "<h2>Items in your cart</h2>\n";
     //cout << "<input type='button' value='Checkout' onclick=\"location.href='http://localhost/cgi-bin/Tarea1_Seguridad/checkout'\"><br>";
     cout << "__________________________________________________________________________________________________________________";
-    printCart((getCookieKeyValue("UserId")));
+    printCart((getCookieKeyValue("SessionId")));
     cout << ("</body>\n");
     cout << ("</html>\n");
 
