@@ -24,7 +24,7 @@ int CreateUser(string username, string fullname, string email, string phone_numb
     sql::Connection *con = getConnection();
     sql::Statement *stmt;
     stmt = con->createStatement();
-    stmt->executeUpdate("Insert into User (username, fullname, email, phone_number, password_hash) Values('" + username + "', '" + fullname + "', '" + email + "', " + phone_number  + ", + " + password_hash + ");");
+    stmt->executeUpdate("Insert into User (username, fullname, email, phone_number, password_hash) Values('" + username + "', '" + fullname + "', '" + email + "', " + phone_number  + ", + '" + password_hash + "');");
     return 0;
 }
 
@@ -33,7 +33,7 @@ string loginQuery(string username, string password_hash){
     sql::Statement *stmt;
     sql::ResultSet *res;
     stmt = con->createStatement();
-    res = stmt->executeQuery("Select id from User where username = '" + username + "';");
+    res = stmt->executeQuery("Select id from User where username = '" + username + "' and password_hash = '" + password_hash + "';");
     string userId = "";
     while(res->next()){
         userId = res->getString("id");

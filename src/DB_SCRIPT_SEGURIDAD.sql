@@ -3,7 +3,7 @@ use Amazin;
 Create table if not exists User(
 	id int not null auto_increment,
     username varchar(25) not null unique,
-    password_hash varchar(60) not null,
+    password_hash varchar(40) not null,
     fullname varchar(70) not null,
     email varchar(50) not null unique,
     phone_number int not null unique,

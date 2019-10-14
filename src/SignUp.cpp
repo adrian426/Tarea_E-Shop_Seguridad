@@ -12,38 +12,38 @@ using namespace std;
 using namespace sql::mysql;
 
 int check_form_data(vector<string> postData){
-    regex fullname_regex("");
+    regex fullname_regex("[a-zA-Z]+[ a-zA-Z]*");
     regex username_regex ("^[a-zA-Z0-9\\_\\-\\.]{2,29}");
-    regex password_regex ("[\\_\\-\\.0-9a-zA-Z]{3-20}");
-    regex email_regex ("^[A-Z0-9\\._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$");
+    regex password_regex ("[\\_\\-\\.0-9a-zA-Z]{3,20}");
+    regex email_regex ("[a-zA-Z0-9\\_\\-\\.]+\\@[a-zA-Z][a-zA-Z\\.]+");
     regex phoneNumber_regex ("[0-9]{8}");
     string username = get_string_without_char(' ', '\0' ,getKeyOrValue(postData[0],1));
-    string password = get_string_without_char(' ', '\0' ,getKeyOrValue(postData[4],1));
     string fullname = get_string_without_char(' ', '\0' ,getKeyOrValue(postData[1],1));
-    string phone = get_string_without_char(' ', '\0' ,getKeyOrValue(postData[3],1));
     string email = get_string_without_char(' ', '\0' ,getKeyOrValue(postData[2],1));
+    string phone = get_string_without_char(' ', '\0' ,getKeyOrValue(postData[3],1));
+    string password = get_string_without_char(' ', '\0' ,getKeyOrValue(postData[4],1));
     
     if(username == "" || !regex_match(username, username_regex)){
-        return 1;
+        return false;
     }
     
     if(password == "" || !regex_match(password, password_regex)){
-        return 1;
+        return false;
     }
 
     if(email == "" || !regex_match(email, email_regex)){
-        return 1;
+        return false;
     }
 
     if(fullname == "" || !regex_match(fullname, fullname_regex)){
-        return 1;
+        return false;
     }
 
     if(phone == "" || !regex_match(phone, phoneNumber_regex)){
-        return 1;
+        return false;
     }
 
-    return 0;
+    return true;
 }
 
 int check_password_match(vector<string> postData){
@@ -57,8 +57,8 @@ int check_password_match(vector<string> postData){
 
 void createUserFromPost(vector<string> postData){
     //TODO: AGREGAR PASSWORD.
-    string username = get_string_without_char(' ', '\0' ,getKeyOrValue(postData[0],1));
-    string password = get_string_without_char(' ', '\0' ,getKeyOrValue(postData[4],1));
+    string username = getKeyOrValue(postData[0],1);
+    string password = getKeyOrValue(postData[4],1);
     string hashed_password = hash_password(password, username);
     CreateUser(getKeyOrValue(postData[0],1),getKeyOrValue(postData[1],1), getKeyOrValue(postData[2],1), getKeyOrValue(postData[3],1), hashed_password);
 }

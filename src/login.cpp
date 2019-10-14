@@ -12,19 +12,26 @@ using namespace sql::mysql;
 
 
 int checkFormFields(string username, string password){
-  regex username_regex ("^[a-zA-Z0-9\\_\\-\\.]{2,29}", regex::ECMAScript);
-  regex password_regex ("[\\_\\-\\.0-9a-zA-Z]{3-20}", regex::ECMAScript);
-  if(username != "" && password != "" && regex_match(username, username_regex) && regex_match(password, password_regex)){
-    return 1;
+  regex username_regex ("[a-zA-Z0-9\\_\\-\\.]{2,29}");
+  regex password_regex ("[\\_\\-\\.0-9a-zA-Z]{3,20}");
+  string clearedUsername = get_string_without_char(' ', '\0' , username);
+  string password_cleared =  get_string_without_char(' ', '\0', password);
+  if(clearedUsername == "" ||  !regex_match(clearedUsername, username_regex)){
+    return false;
   }
-  //either field is empty or not matching.
-  return 0;
+
+  if(password_cleared == "" || !regex_match(password_cleared, password_regex)){
+    return false;
+  }
+
+  //both fields are valid.
+  return true;
 }
 
 string checkUserLogin(string username, string password){
   string password_hash = hash_password(password, username);
   string userId = loginQuery(username, password);
-  return userId;
+  return password_hash;
 }
 
 
@@ -33,8 +40,9 @@ int main(int argc, char** argv, char** envp){
   string userId = "";
   int inexistent_user = 0;
   if(post != ""){
-    string username = getKeyOrValue(post, 1);
-    string password = getKeyOrValue(post, 2);
+    vector<string> postData = getTokenPairs('&',post);
+    string username = getKeyOrValue(postData[0], 1);
+    string password = getKeyOrValue(postData[1], 1);
     if(checkFormFields(username, password)){
       userId = checkUserLogin(username, password);
       if(userId != ""){
@@ -44,6 +52,8 @@ int main(int argc, char** argv, char** envp){
         //TODO: Indicar inexistencia del usuario.
         inexistent_user = 1;
       }
+    } else {
+      inexistent_user = 2;
     }
   }
   string userLoggedIn = getCookieKeyValue("UserId");
@@ -55,8 +65,10 @@ int main(int argc, char** argv, char** envp){
   printOptions(getCookieKeyValue("UserId"));  
   cout << ("<form action='login' METHOD='POST'>\n");
   cout << ("<h2><b>Login</b></h2>\n");
-  if(inexistent_user != 0){
-    cout<< "<h4>The username entered does not exist</h4>";
+  if(inexistent_user == 1){
+    cout<< "<h4>The username entered does not exist.</h4>";
+  } else if(inexistent_user == 2){
+    cout<< "<h4>Invalid character found in a field.</h4>";
   }
   cout << ("<div><label>Enter your username:</label><br><input name='username' required></div><br>\n");
   cout << ("<div><label>Enter your password:</label><br><input type='password' name='password' required></div><br>\n");
