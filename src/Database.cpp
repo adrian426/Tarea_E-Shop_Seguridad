@@ -102,10 +102,25 @@ bool isSessionAlive(string sessionId){
     return false;
 }
 
+string getUserIdFromSession(sql::Connection *con, string sessionId){
+    sql::Statement *stmt;
+    sql::ResultSet *res;
+    stmt = con->createStatement();
+    res = stmt->executeQuery("Select * from _Session where id = " + sessionId + ";");
+    string userId = "";
+    while(res->next()){
+        userId = res->getString("user_fk");
+    }
+    delete stmt;
+    delete res;
+    return userId;
+}
+
 //_________________________________________PRODUCT TABLE SECTION____________________________________
-int AddProductToSale(string name, string description, string price, string seller_fk){
+int AddProductToSale(string name, string description, string price, string sessionId){
     sql::Connection *con = getConnection();
     sql::Statement *stmt;
+    string seller_fk = getUserIdFromSession(con, sessionId);
     stmt = con->createStatement();
     stmt->executeUpdate("Insert into Product (product_name, product_descp, price, seller_fk) Values('" + name + "', '" + description + "', " + price + ", " + seller_fk  + ");");
     delete con;
@@ -131,9 +146,10 @@ void printProductList(bool userLogged, string keyword){
 
 //_________________________________________CLAIM TABLE SECTION____________________________________
 
-int addClaimToTable(string title, string msg, string type, bool anon, string user){
+int addClaimToTable(string title, string msg, string type, bool anon, string sessionId){
     sql::Connection *con = getConnection();
     sql::Statement *stmt;
+    string user = getUserIdFromSession(con, sessionId);
     string query = "Insert into Claim (title, claim_type, msg, msg_timestamp";
     if(anon){
         query += ") values ('" + title + "', " + type + ", '" + msg + "', CURRENT_TIMESTAMP())";
@@ -159,20 +175,22 @@ void printClaims(){
 
 //_________________________________________CART TABLE SECTION____________________________________
 
-int addItemToCart(string item_id, string userId){
+int addItemToCart(string item_id, string sessionId){
     sql::Connection *con = getConnection();
     sql::Statement *stmt = con->createStatement();
-    string query = "Insert into Cart values ('" + userId + "', '" + item_id + "');";
+    string userId = getUserIdFromSession(con, sessionId);
+    string query = "Insert into Cart values ('" + userId + "', (Select id from Product where id = " + item_id + " and buyer_fk is null));";
     stmt->executeUpdate(query);
     delete con;
     delete stmt;
     return 0;
 }
 
-void printCart(string userId){
-    string query = "Select Distinct * from Product P, Cart C where C.user_fk = '" + userId + "' AND P.id = C.product_fk;";
+void printCart(string sessionId){
     sql::Connection *con = getConnection();
     sql::Statement *stmt = con->createStatement();
+    string userId = getUserIdFromSession(con, sessionId);
+    string query = "Select Distinct * from Product P, Cart C where C.user_fk = '" + userId + "' AND P.id = C.product_fk;";
     sql::ResultSet *rst = stmt->executeQuery(query);
     while(rst->next()){
         cout << "<h4>" + rst->getString("product_name") + "</h4>";
@@ -186,9 +204,10 @@ void printCart(string userId){
     delete rst;
 }
 
-int removeItemFromCart(string itemId, string userId){
+int removeItemFromCart(string itemId, string sessionId){
     sql::Connection *con = getConnection();
     sql::Statement *stmt = con->createStatement();
+    string userId = getUserIdFromSession(con, sessionId);
     string query = "Delete from Cart where user_fk = '" + userId + "' AND product_fk = '" + itemId + "';";
     stmt->executeUpdate(query);
     delete con;
@@ -196,9 +215,10 @@ int removeItemFromCart(string itemId, string userId){
     return 0; 
 }
 
-void checkoutCart(string userId, string card_number){
+void checkoutCart(string sessionId, string card_number){
     sql::Connection *con = getConnection();
     sql::Statement *stmt = con->createStatement();
+    string userId = getUserIdFromSession(con, sessionId);
     stmt->executeUpdate("Insert into Bill_Info (user_fk, credit_card, amount, bill_date) values (" + userId + ", " + card_number + ", (Select SUM(price) from Product where id IN (Select product_fk from Cart where user_fk = " + userId + ")),NOW());");
     stmt->executeUpdate("Update Product Set product_status = 1, buyer_fk = " + userId + ", bill_id = (select id from Bill_Info where user_fk = " + userId + " order by bill_date desc LIMIT 1) where id IN (Select product_fk from Cart where user_fk = " + userId + ");");
     stmt->executeUpdate("Delete from Cart where user_fk = " + userId +";");
@@ -208,10 +228,11 @@ void checkoutCart(string userId, string card_number){
 
 
 
-void printBoughtItems(string userId){
-    string query = "Select Distinct * from Product where buyer_fk = '" + userId + "';";
+void printBoughtItems(string sessionId){
     sql::Connection *con = getConnection();
     sql::Statement *stmt = con->createStatement();
+    string userId = getUserIdFromSession(con, sessionId);
+    string query = "Select Distinct * from Product where buyer_fk = '" + userId + "';";
     sql::ResultSet *rst = stmt->executeQuery(query);
     while(rst->next()){
         cout << "<h4>" + rst->getString("product_name") + "</h4>";

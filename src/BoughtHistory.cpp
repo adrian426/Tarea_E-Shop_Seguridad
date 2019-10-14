@@ -18,7 +18,7 @@ int main(int argc, char** argv, char** envp){
     printOptions(session);
     cout << "<h2>Shopping History</h2>\n";
     cout << "__________________________________________________________________________________________________________________";
-    printBoughtItems((getCookieKeyValue("UserId")));//TODO: SACAR EL ID DE SESSION DEL LOGIN.
+    printBoughtItems((getCookieKeyValue("SessionId")));//TODO: SACAR EL ID DE SESSION DEL LOGIN.
     cout << ("</body>\n");
     cout << ("</html>\n");
 

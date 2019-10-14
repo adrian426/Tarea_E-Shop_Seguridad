@@ -8,11 +8,31 @@
 // Include the Connector/C++ headers
 using namespace std;
 
+string get_censored_card(string card){
+    string censored = "";
+    for(int i = 0; i < 16; i++){
+        if(i < 12){
+            censored += "X";
+        } else {
+            censored += card[i];
+        }
+    }
+    return censored;
+}
+
 int PaymentSimulation(){
     vector<string> post = getTokenPairs('&', getPostData());
-    string user_id = getCookieKeyValue("UserId");
+    regex card ("[0-9]{16}");
+    string session_id = getCookieKeyValue("SessionId");
     string card_number = getKeyOrValue(post[0],1);
-    checkoutCart(user_id, card_number);
+    if(regex_match(card_number, card)){
+        try{
+            checkoutCart(session_id, get_censored_card(card_number));
+        }catch(exception e){
+            return -1;
+        }
+        return 1;
+    }
     return 0;
 }
 
@@ -21,8 +41,8 @@ int main(int argc, char** argv, char** envp){
     if( session == true){
         cout << "Location: Home\r\n\r\n";
     }
-    try{
-        PaymentSimulation();
+    int rst = PaymentSimulation();
+    if(rst == 0){
         cout << "Content-type:text/html\r\n\r\n";
         cout << "<body>\n";
         printOptions(session);
@@ -30,12 +50,15 @@ int main(int argc, char** argv, char** envp){
         cout << "<input type='button' value='Continue' onclick=\"location.href='http://localhost/cgi-bin/Tarea1_Seguridad/Home'\">";
         cout << ("</body>\n");
         cout << ("</html>\n");
-    }catch(exception e){
+    } else {
         cout << "Content-type:text/html\r\n\r\n";
         cout << "<body>\n";
-        cout << e.what();
         printOptions(session);
-        cout << "<h2>An error ocurred while checking out your shopping cart..</h2>\n";
+        if(rst == -1){
+            cout << "<h2>An error ocurred while checking out your shopping cart.</h2>\n";
+        } else {
+            cout << "<h2>Invalid Card number entered.</h2>\n";
+        }
         cout << "<input type='button' value='Cart' onclick=\"location.href='http://localhost/cgi-bin/Tarea1_Seguridad/review_cart'\">";
         cout << ("</body>\n");
         cout << ("</html>\n");

@@ -7,12 +7,15 @@
 // Include the Connector/C++ headers
 using namespace std;
 
+
 void addItemToCartPrep(){
-    //I think i should check if the item was already bought, since this ignores that.
-    //and it could be added through QUERY_STRING
-    string item_id = getKeyOrValue(getenv("QUERY_STRING"),1);
-    string user_id = getCookieKeyValue("UserId");
-    addItemToCart(item_id, user_id);
+    vector<string> getData = getTokenPairs('&',getenv("QUERY_STRING"));
+    string item_id = getKeyOrValue(getData[0],1);
+    regex number ("[0-9]{1-10}");
+    if(regex_match(item_id, number)){
+        string session_id = getCookieKeyValue("SessionId");
+        addItemToCart(item_id, session_id);
+    }
 }
 
 int main(int argc, char** argv, char** envp){

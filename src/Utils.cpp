@@ -27,6 +27,11 @@ string generate_random_string(){
     return rst;
 }
 
+regex get_generic_regex(){
+    regex gen ("[\\w \\,\\.]+");
+    return gen;
+}
+
 string decode(string encoded_string){
     int len = encoded_string.length();
     string decoded_string = "";
