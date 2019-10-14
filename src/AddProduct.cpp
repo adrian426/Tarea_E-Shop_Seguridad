@@ -13,7 +13,7 @@ bool check_fields(string name, string descp, string price){
     if(get_string_without_char(' ', '\0', name) == "" || !regex_match(name, get_generic_regex())){
         return false;
     }
-
+    regex gen ("[\\w \\,\\.\\n]+");
     if(get_string_without_char(' ', '\0', descp) == "" || !regex_match(descp, get_generic_regex())){
         return false;
     }

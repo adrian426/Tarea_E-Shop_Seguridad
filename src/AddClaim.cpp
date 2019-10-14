@@ -14,8 +14,8 @@ bool checkFields(string title, string msg, string type){
     if(get_string_without_char(' ', '\0', title) == "" || regex_match(title,get_generic_regex())){
         return false;
     }
-
-    if(get_string_without_char(' ', '\0', msg) == "" || regex_match(msg,get_generic_regex())){
+    regex gen ("[\\w \\,\\.\\n]+");
+    if(get_string_without_char(' ', '\0', msg) == "" || regex_match(msg,gen)){
         return false;
     }
 
@@ -53,9 +53,6 @@ int main(int argc, char** argv, char** envp){
     bool session = sessionStatus();
     int error_adding_claim = 0;
     bool rst = true;
-    if(!session){
-        cout << "Location: Home\r\n\r\n";
-    }
     try{//Try to add the user to the database.
         if(post != ""){//Call the user registry.
             rst = addClaim(post);
