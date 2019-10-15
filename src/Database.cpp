@@ -138,7 +138,7 @@ void printProductList(bool userLogged, string keyword){
         cout << "<label>" + rst->getString("product_descp") + "</label><br>";
         cout << "<label>Price: $" + rst->getString("price") + "</label><br><br>";
         if(userLogged){
-            cout << "<a href='172.24.129.95/cgi-bin/Tarea1_Seguridad/add_to_cart?id=" + rst->getString("id") + "'>Add to cart</a><br>";
+            cout << "<a href='https://172.24.129.95/cgi-bin/Tarea1_Seguridad/add_to_cart?id=" + rst->getString("id") + "'>Add to cart</a><br>";
         }
         cout << "__________________________________________________________________________________________________________________";
     }
@@ -196,7 +196,7 @@ void printCart(string sessionId){
         cout << "<h4>" + rst->getString("product_name") + "</h4>";
         cout << "<label>" + rst->getString("product_descp") + "</label><br>";
         cout << "<label>Price: $" + rst->getString("price") + "</label><br><br>";
-        cout << "<a href='172.24.129.95/cgi-bin/Tarea1_Seguridad/remove_from_cart?id=" + rst->getString("id") + "'>Remove from cart</a><br>";
+        cout << "<a href='https://172.24.129.95/cgi-bin/Tarea1_Seguridad/remove_from_cart?id=" + rst->getString("id") + "'>Remove from cart</a><br>";
         cout << "__________________________________________________________________________________________________________________";
     }
     delete con;

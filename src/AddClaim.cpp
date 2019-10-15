@@ -77,7 +77,7 @@ int main(int argc, char** argv, char** envp){
     cout << "<input type='radio' name='type' value='1'> Feedback";
     cout << "<input type='radio' name='type' value='2'> Claim";
     cout << ("<br><br><div><label>Description:</label><br><textarea rows='3' name='msg' required></textarea></div><br>\n");
-    cout << ("<div><input type='button' value='Cancel' onclick=\"location.href='172.24.129.95/cgi-bin/Tarea1_Seguridad/review_claims'\"> <input type='submit' value='Submit'></div>\n");
+    cout << ("<div><input type='button' value='Cancel' onclick=\"location.href='https://172.24.129.95/cgi-bin/Tarea1_Seguridad/review_claims'\"> <input type='submit' value='Submit'></div>\n");
     cout << ("</form>\n");
     cout << ("</body>\n");
     cout << ("</html>\n");
