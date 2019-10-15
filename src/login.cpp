@@ -30,8 +30,6 @@ int checkUserLogin(string username, string password){
   string sessionId = generate_random_string();
   string userId = loginQuery(username, password_hash, sessionId);
   if(userId != ""){
-    setCookiePair("SessionId", sessionId);
-    setCookiePair("Expires","");
     return 1;
   } else {
     return 0;
@@ -54,6 +52,8 @@ int main(int argc, char** argv, char** envp){
         if(logged != 0){
           inexistent_user = -1;
           userLoggedIn = true;
+          setCookiePair("SessionId", sessionId);
+          setCookiePair("Expires","");
           cout << "Location: Home\n";
         } else {
           //TODO: Indicar inexistencia del usuario.
