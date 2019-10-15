@@ -27,7 +27,7 @@ int main(int argc, char** argv, char** envp){
     printOptions(session);
     cout << "<h2>Product List</h2>\n";
     cout << ("<form action='Home' METHOD='GET'>\n");
-    if(get_string_without_char(' ', '\0', keyword) == "" || !check_keyword_field(keyword)){
+    if(keyword != "" && get_string_without_char(' ', '\0', keyword) == "" || !check_keyword_field(keyword)){
       cout << "<h2>Invalid character found in the search field.</h2>\n";
       keyword = "";
     }
