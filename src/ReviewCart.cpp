@@ -23,7 +23,7 @@ int main(int argc, char** argv, char** envp){
     cout << ("<div><input type='submit' value='Checkout'></div>\n");
     cout << ("</form>\n");
     cout << "<h2>Items in your cart</h2>\n";
-    //cout << "<input type='button' value='Checkout' onclick=\"location.href='http://localhost/cgi-bin/Tarea1_Seguridad/checkout'\"><br>";
+    //cout << "<input type='button' value='Checkout' onclick=\"location.href='localhost/cgi-bin/Tarea1_Seguridad/checkout'\"><br>";
     cout << "__________________________________________________________________________________________________________________";
     printCart((getCookieKeyValue("SessionId")));
     cout << ("</body>\n");

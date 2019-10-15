@@ -11,7 +11,7 @@ int main(int argc, char** argv, char** envp){
     cout << "<body>\n";
     printOptions(sessionStatus());
     cout << "<h2>User submitted feedback</h2>\n";
-    cout << "<a href='http://172.24.129.95/cgi-bin/Tarea1_Seguridad/add_claim'>Make your claim</a><br>";
+    cout << "<a href='172.24.129.95/cgi-bin/Tarea1_Seguridad/add_claim'>Make your claim</a><br>";
     cout << "__________________________________________________________________________________________________________________";
     printClaims();
     cout << ("</body>\n");

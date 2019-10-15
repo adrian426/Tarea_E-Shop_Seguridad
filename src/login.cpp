@@ -43,7 +43,10 @@ int main(int argc, char** argv, char** envp){
   string post = getPostData();
   int logged = 0;
   int inexistent_user = 0;
-  bool userLoggedIn = false;
+  bool userLoggedIn = sessionStatus();
+  if(userLoggedIn){
+    cout << "Location: Home\n";
+  }
   if(post != ""){
     vector<string> postData = getTokenPairs('&',post);
     string username = getKeyOrValue(postData[0], 1);
@@ -53,7 +56,6 @@ int main(int argc, char** argv, char** envp){
         logged = checkUserLogin(username, password);
         if(logged != 0){
           inexistent_user = -1;
-          userLoggedIn = true;
           cout << "Location: Home\n";
         } else {
           //TODO: Indicar inexistencia del usuario.
@@ -64,12 +66,6 @@ int main(int argc, char** argv, char** envp){
       }
     } else {
       inexistent_user = 2;
-    }
-  }
-  if(inexistent_user == 0){//If the user tries to log in while logged in.
-    userLoggedIn = sessionStatus();
-    if( userLoggedIn ){//If the user is already logged in, redirect to Homepage.
-      cout << "Location: Home\n";
     }
   }
   cout << "Content-type:text/html\r\n\r\n";
