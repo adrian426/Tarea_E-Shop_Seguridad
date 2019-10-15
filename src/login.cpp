@@ -59,7 +59,7 @@ int main(int argc, char** argv, char** envp){
           inexistent_user = 1;
         }
       } catch (exception e){
-        inexistent_user = 3
+        inexistent_user = 3;
       }
     } else {
       inexistent_user = 2;
