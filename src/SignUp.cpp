@@ -70,7 +70,7 @@ int main(int argc, char** argv, char** envp){
             if(check_password_match(postData)){//Call the user registry.
                 try{//Try to add the user to the database.
                     createUserFromPost(postData);
-                    cout << "Location: http://localhost/cgi-bin/Tarea1_Seguridad/Home\r\n\r\n";
+                    cout << "Location: Home\r\n\r\n";
                 } catch (exception e){//If a value from the form is not unique in the db (except fullname), it will fail and set the error.
                     error_creating_user = 1;
                 }
@@ -101,7 +101,7 @@ int main(int argc, char** argv, char** envp){
     cout << ("<div><label>Enter your Phone number:</label><br><input type=\"tel\" name=\"phone\" pattern=\"[0-9]{8}\" required></div><br>\n");
     cout << ("<div><label>Enter your Password:</label><br><input name='password' type='password' required></div><br>\n");
     cout << ("<div><label>Confirm your Password:</label><br><input name='password_conf' type='password' required></div><br>\n");
-    cout << ("<div><input type='button' value='Cancel' onclick=\"location.href='http://localhost/cgi-bin/Tarea1_Seguridad/Home'\"> <input type='submit' value='Sign up'></div>\n");
+    cout << ("<div><input type='button' value='Cancel' onclick=\"location.href='http://172.24.129.81/cgi-bin/Tarea1_Seguridad/Home'\"> <input type='submit' value='Sign up'></div>\n");
     cout << ("</form>\n");
     cout << ("</body>\n");
     cout << ("</html>\n");
