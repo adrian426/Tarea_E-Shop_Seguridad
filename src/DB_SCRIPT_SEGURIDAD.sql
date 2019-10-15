@@ -72,4 +72,4 @@ GRANT SELECT, INSERT, DELETE, UPDATE ON Amazin._Session TO 'amazin_user'@'localh
 GRANT SELECT, INSERT, UPDATE ON Amazin.Product TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
 GRANT SELECT, INSERT ON Amazin.Claim TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
 GRANT SELECT, INSERT, DELETE ON Amazin.Cart TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
-GRANT INSERT ON Amazin.Bill_Info TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
+GRANT SELECT, INSERT ON Amazin.Bill_Info TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
