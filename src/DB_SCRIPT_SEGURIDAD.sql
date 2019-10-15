@@ -3,6 +3,7 @@ use Amazin;
 Create table if not exists User(
 	id int not null auto_increment,
     username varchar(25) not null unique,
+    password_hash varchar(40) not null,
     fullname varchar(70) not null,
     email varchar(50) not null unique,
     phone_number int not null unique,
@@ -36,10 +37,8 @@ create table if not exists Claim(
     claim_type int not null,
     msg varchar(2000) not null,
     msg_timestamp DATE not null,
-    reply_to_claim_fk int,
     user_fk int,
     primary key (id),
-    foreign key (reply_to_claim_fk) references Claim (id),
     foreign key (user_fk) references User (id)
 );
 
@@ -52,3 +51,17 @@ create table if not exists Bill_Info(
     foreign key (user_fk) references User(id),
     primary key (id)
 );
+
+create table _Session(
+    id varchar(24) unique not null,
+    user_fk int unique not null,
+    session_expiration TIMESTAMP not null,
+    FOREIGN KEY (user_fk) REFERENCES User(id),
+    PRIMARY KEY (id)
+); 
+
+CREATE EVENT delete_expired_sessions
+ON SCHEDULE EVERY 15 MINUTE
+STARTS CURRENT_TIMESTAMP
+DO
+	Delete from Amazin._Session where timestampdiff(MINUTE, session_expiration, NOW()) >= 15;

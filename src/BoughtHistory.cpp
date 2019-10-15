@@ -5,20 +5,20 @@
 #include "CookieHandler.cpp"
 #include "Utils.cpp"
 #include "RequestHandler.cpp"
-#include "Database.cpp"
 // Include the Connector/C++ headers
 using namespace std;
 
 int main(int argc, char** argv, char** envp){
-    if((getCookieKeyValue("UserId") == "")){
+    bool session = sessionStatus();
+    if(!session){
         cout << "Location: Home\r\n\r\n";
     }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
-    printOptions(getCookieKeyValue("UserId"));
+    printOptions(session);
     cout << "<h2>Shopping History</h2>\n";
     cout << "__________________________________________________________________________________________________________________";
-    printBoughtItems((getCookieKeyValue("UserId")));
+    printBoughtItems((getCookieKeyValue("SessionId")));//TODO: SACAR EL ID DE SESSION DEL LOGIN.
     cout << ("</body>\n");
     cout << ("</html>\n");
 

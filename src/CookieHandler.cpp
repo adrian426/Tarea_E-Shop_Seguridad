@@ -2,10 +2,11 @@
 #include <sstream>
 #include <vector>
 #include "string.h"
+#include "Database.cpp"
+#include <regex>
 using namespace std;
 
 const string past_time_to_kill_cookie = "01 Jan 1960 12:00:00 GMT";
-
 
 int setCookiePair(string key, string value){
     cout << "Set-Cookie:" + key + " = " + value + ";\r\n";
@@ -14,7 +15,7 @@ int setCookiePair(string key, string value){
 
 void killCookie(){
     cout << "Set-Cookie:Expires = " + past_time_to_kill_cookie + ";\r\n";
-    cout << "Set-Cookie:UserId = ;\r\n";
+    cout << "Set-Cookie:SessionId = ;\r\n";
 }
 
 string getCookieKeyValue(string key){
@@ -56,4 +57,32 @@ string getCookieKeyValue(string key){
        foundValue = "";
     }
     return foundValue;
+}
+
+
+int check_session_match(string sessionId){
+  regex sessionRegex ("[123456890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM]{24}");
+  return regex_match(sessionId, sessionRegex);
+}
+
+// Returns the status of the session and handles all the calls to the database to update the session or
+// know if it's alive.
+int sessionStatus(){
+  string sessionId = getCookieKeyValue("SessionId");
+  bool rst = false;
+  if(sessionId != ""){
+    bool sessionStatus = true;
+    if(check_session_match(sessionId)){ //If the session id matches the regex.
+      sessionStatus = isSessionAlive(sessionId);
+    } else {
+      sessionStatus = false;
+    }
+    if(sessionStatus == false){//If the session isn´t found in the table.
+    //this means that the user was inactive for a considerable amount of time.
+      sessionLogOut(sessionId);
+    } else {
+      rst = true;
+    }
+  }
+  return rst;
 }
