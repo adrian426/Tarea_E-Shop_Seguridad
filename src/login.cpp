@@ -31,6 +31,7 @@ int checkUserLogin(string username, string password){
   string userId = loginQuery(username, password_hash, sessionId);
   if(userId != ""){
     setCookiePair("SessionId", sessionId);
+    setCookiePair("Expires","");
     return 1;
   } else {
     return 0;
