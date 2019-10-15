@@ -47,7 +47,7 @@ int main(int argc, char** argv, char** envp){
         cout << "<body>\n";
         printOptions(session);
         cout << "<h2>You have succesfully bought all the items in your cart.</h2>\n";
-        cout << "<input type='button' value='Continue' onclick=\"location.href='http://172.24.129.81/cgi-bin/Tarea1_Seguridad/Home'\">";
+        cout << "<input type='button' value='Continue' onclick=\"location.href='http://172.24.129.95/cgi-bin/Tarea1_Seguridad/Home'\">";
         cout << ("</body>\n");
         cout << ("</html>\n");
     } else {
@@ -59,7 +59,7 @@ int main(int argc, char** argv, char** envp){
         } else {
             cout << "<h2>Invalid Card number entered.</h2>\n";
         }
-        cout << "<input type='button' value='Cart' onclick=\"location.href='http://172.24.129.81/cgi-bin/Tarea1_Seguridad/review_cart'\">";
+        cout << "<input type='button' value='Cart' onclick=\"location.href='http://172.24.129.95/cgi-bin/Tarea1_Seguridad/review_cart'\">";
         cout << ("</body>\n");
         cout << ("</html>\n");
     }

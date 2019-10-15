@@ -101,7 +101,7 @@ int main(int argc, char** argv, char** envp){
     cout << ("<div><label>Enter your Phone number:</label><br><input type=\"tel\" name=\"phone\" pattern=\"[0-9]{8}\" required></div><br>\n");
     cout << ("<div><label>Enter your Password:</label><br><input name='password' type='password' required></div><br>\n");
     cout << ("<div><label>Confirm your Password:</label><br><input name='password_conf' type='password' required></div><br>\n");
-    cout << ("<div><input type='button' value='Cancel' onclick=\"location.href='http://172.24.129.81/cgi-bin/Tarea1_Seguridad/Home'\"> <input type='submit' value='Sign up'></div>\n");
+    cout << ("<div><input type='button' value='Cancel' onclick=\"location.href='http://172.24.129.95/cgi-bin/Tarea1_Seguridad/Home'\"> <input type='submit' value='Sign up'></div>\n");
     cout << ("</form>\n");
     cout << ("</body>\n");
     cout << ("</html>\n");

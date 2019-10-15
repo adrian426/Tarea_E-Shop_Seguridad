@@ -66,7 +66,7 @@ int main(int argc, char** argv, char** envp){
     cout << ("<div><label>Product name:</label><br><input name='name' required></div><br>\n");
     cout << ("<div><label>Product description:</label><br><textarea rows='3' name='desc' required></textarea></div><br>\n");
     cout << ("<div><label>Product price:</label><br><input type=\"tel\" name=\"price\" pattern=\"[0-9]{1,11}\" required></div><br>\n");
-    cout << ("<div><input type='button' value='Cancel' onclick=\"location.href='http://172.24.129.81/cgi-bin/Tarea1_Seguridad/Home'\"> <input type='submit' value='Submit'></div>\n");
+    cout << ("<div><input type='button' value='Cancel' onclick=\"location.href='http://172.24.129.95/cgi-bin/Tarea1_Seguridad/Home'\"> <input type='submit' value='Submit'></div>\n");
     cout << ("</form>\n");
     cout << ("</body>\n");
     cout << ("</html>\n");
