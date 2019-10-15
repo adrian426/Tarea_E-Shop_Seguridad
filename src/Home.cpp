@@ -20,7 +20,7 @@ int main(int argc, char** argv, char** envp){
     bool session = sessionStatus();
     string get = getenv("QUERY_STRING");
     if( get != "" ){
-      keyword = get;
+      keyword = getKeyOrValue(get, 1);
     }
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<body>\n";
@@ -30,13 +30,14 @@ int main(int argc, char** argv, char** envp){
     if(get_string_without_char(' ', '\0', keyword) != ""){
       if(check_keyword_field(keyword)){
         cout << "<h2>Invalid character found in the search field.</h2>\n";
+        keyword = "";
       }
     }
     cout << ("<div><label>Keyword search:</label><br><input name='keyword'></div><br>\n");
     cout << ("<div><input type='submit' value='Search'></div>\n");
     cout << ("</form>\n");
     cout << "__________________________________________________________________________________________________________________";
-    printProductList((getCookieKeyValue("SessionId") != "")? true:false, getKeyOrValue(keyword, 1));//TODO: SACAR ID DEL USUARIO LOGUEADO
+    printProductList((getCookieKeyValue("SessionId") != "")? true:false, keyword);//TODO: SACAR ID DEL USUARIO LOGUEADO
     cout << ("</body>\n");
     cout << ("</html>\n");
 
