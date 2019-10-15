@@ -67,7 +67,9 @@ int main(int argc, char** argv, char** envp){
     }
   }
   if(inexistent_user != -1){//If the user tries to log in while logged in.
-    userLoggedIn = sessionStatus();
+    if(userLoggedIn == false){// to check if the session of the logged user has expired.
+      userLoggedIn = sessionStatus();
+    }
     if( userLoggedIn ){//If the user is already logged in, redirect to Homepage.
       cout << "Location: Home\n";
     }
