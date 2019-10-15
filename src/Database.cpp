@@ -5,7 +5,7 @@
 #include "jdbc/cppconn/exception.h"
 #include "jdbc/cppconn/resultset.h"
 #include "jdbc/cppconn/statement.h"
-#include "jdbc/prepared_statement.h"
+#include "jdbc/cppconn/prepared_statement.h"
 using namespace std;
 using namespace sql::mysql;
 
