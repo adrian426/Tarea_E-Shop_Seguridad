@@ -83,7 +83,7 @@ int main(int argc, char** argv, char** envp){
     cout<< "<h4>Unable to sign in with the credentials entered.</h4>";
   } else if(inexistent_user == 2){
     cout<< "<h4>Invalid character found in a field.</h4>";
-  } else if(inexistent_user == 2){
+  } else if(inexistent_user == 3){
     cout<< "<h4>Theres already an active session with the credentials entered.</h4>";
   }
   cout << ("<div><label>Enter your username:</label><br><input name='username' required></div><br>\n");
