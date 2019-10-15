@@ -79,6 +79,7 @@ int sessionStatus(){
     }
     if(sessionStatus == false){//If the session isn´t found in the table.
     //this means that the user was inactive for a considerable amount of time.
+      killCookie();
       sessionLogOut(sessionId);
     } else {
       rst = true;
