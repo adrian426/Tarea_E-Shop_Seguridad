@@ -30,6 +30,8 @@ int checkUserLogin(string username, string password){
   string sessionId = generate_random_string();
   string userId = loginQuery(username, password_hash, sessionId);
   if(userId != ""){
+    setCookiePair("SessionId", sessionId);
+    setCookiePair("Expires","");
     return 1;
   } else {
     return 0;
@@ -52,8 +54,6 @@ int main(int argc, char** argv, char** envp){
         if(logged != 0){
           inexistent_user = -1;
           userLoggedIn = true;
-          setCookiePair("SessionId", sessionId);
-          setCookiePair("Expires","");
           cout << "Location: Home\n";
         } else {
           //TODO: Indicar inexistencia del usuario.
@@ -66,10 +66,8 @@ int main(int argc, char** argv, char** envp){
       inexistent_user = 2;
     }
   }
-  if(inexistent_user != -1){//If the user tries to log in while logged in.
-    if(userLoggedIn == false){// to check if the session of the logged user has expired.
-      userLoggedIn = sessionStatus();
-    }
+  if(inexistent_user == 0){//If the user tries to log in while logged in.
+    userLoggedIn = sessionStatus();
     if( userLoggedIn ){//If the user is already logged in, redirect to Homepage.
       cout << "Location: Home\n";
     }
