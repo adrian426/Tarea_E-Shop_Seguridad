@@ -48,20 +48,24 @@ int main(int argc, char** argv, char** envp){
     string username = getKeyOrValue(postData[0], 1);
     string password = getKeyOrValue(postData[1], 1);
     if(checkFormFields(username, password)){
-      logged = checkUserLogin(username, password);
-      if(logged != 0){
-        inexistent_user = -1;
-        userLoggedIn = true;
-        cout << "Location: Home\n";
-      } else {
-        //TODO: Indicar inexistencia del usuario.
-        inexistent_user = 1;
+      try{
+        logged = checkUserLogin(username, password);
+        if(logged != 0){
+          inexistent_user = -1;
+          userLoggedIn = true;
+          cout << "Location: Home\n";
+        } else {
+          //TODO: Indicar inexistencia del usuario.
+          inexistent_user = 1;
+        }
+      } catch (exception e){
+        inexistent_user = 3
       }
     } else {
       inexistent_user = 2;
     }
   }
-  if(inexistent_user != -1){
+  if(inexistent_user != -1){//If the user tries to log in while logged in.
     userLoggedIn = sessionStatus();
     if( userLoggedIn ){//If the user is already logged in, redirect to Homepage.
       cout << "Location: Home\n";
@@ -73,9 +77,11 @@ int main(int argc, char** argv, char** envp){
   cout << ("<form action='login' METHOD='POST'>\n");
   cout << ("<h2><b>Login</b></h2>\n");
   if(inexistent_user == 1){
-    cout<< "<h4>Unable to sign in with the credentials entered. If you recently started session you may need to wait a a little to log in again.</h4>";
+    cout<< "<h4>Unable to sign in with the credentials entered.</h4>";
   } else if(inexistent_user == 2){
     cout<< "<h4>Invalid character found in a field.</h4>";
+  } else if(inexistent_user == 2){
+    cout<< "<h4>Theres already an active session with the credentials entered.</h4>";
   }
   cout << ("<div><label>Enter your username:</label><br><input name='username' required></div><br>\n");
   cout << ("<div><label>Enter your password:</label><br><input type='password' name='password' required></div><br>\n");
