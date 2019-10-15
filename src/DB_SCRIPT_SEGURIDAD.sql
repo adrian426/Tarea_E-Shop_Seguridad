@@ -65,3 +65,11 @@ ON SCHEDULE EVERY 15 MINUTE
 STARTS CURRENT_TIMESTAMP
 DO
 	Delete from Amazin._Session where timestampdiff(MINUTE, session_expiration, NOW()) >= 15;
+
+CREATE USER 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
+GRANT SELECT, INSERT ON Amazin.User TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
+GRANT SELECT, INSERT, DELETE, UPDATE ON Amazin._Session TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
+GRANT SELECT, INSERT, UPDATE ON Amazin.Product TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
+GRANT SELECT, INSERT ON Amazin.Claim TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
+GRANT SELECT, INSERT, DELETE ON Amazin.Cart TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
+GRANT INSERT ON Amazin.Bill_Info TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';

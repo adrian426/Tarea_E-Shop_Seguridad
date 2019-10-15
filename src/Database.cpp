@@ -15,7 +15,7 @@ sql::Connection* getConnection(){
     sql::Connection *con;
 
     driver = get_mysql_driver_instance();
-    con = driver->connect("localhost", "adrian", "Adrian426!");
+    con = driver->connect("localhost", "amazin_user", "EstoEsSeguro");
     con->setSchema("Amazin");
     return con;
 }
