@@ -64,7 +64,7 @@ CREATE EVENT delete_expired_sessions
 ON SCHEDULE EVERY 15 MINUTE
 STARTS CURRENT_TIMESTAMP
 DO
-	Delete from Amazin._Session where timestampdiff(MINUTE, session_expiration, NOW()) >= 15;
+	Delete from Amazin._Session where timestampdiff(MINUTE, session_expiration, NOW()) >= 0;
 
 CREATE USER 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
 GRANT SELECT, INSERT ON Amazin.User TO 'amazin_user'@'localhost' IDENTIFIED BY 'EstoEsSeguro';
